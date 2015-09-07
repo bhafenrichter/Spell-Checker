@@ -83,7 +83,6 @@ public class SpellChecker {
     private static void PopulateTree() {
         String[] text = GetTextFromFile();
         
-        
         if(text.length == 0){
             System.out.println("Invalid Submission.  Please try again.");
             getUserAction();
