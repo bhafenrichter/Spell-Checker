@@ -43,8 +43,8 @@ public class SpellChecker {
     private static void PopulateTree() {
         String[] text = GetTextFromFile();
         String[] split = text[0].split(" ");
-        for (int i = 0; i < text.length; i++) {
-            String cur = text[i];
+        for (int i = 0; i < split.length; i++) {
+            String cur = split[i];
             TraverseTree(trie.root, cur, 0);
         }
     }
@@ -66,23 +66,16 @@ public class SpellChecker {
         } else {
             //traverse the children and see if the current letter is one of them
             char wordData = word.charAt(index);
-            boolean hasTraversed = false;
             for (int i = 0; i < n.children.size(); i++) {
                 char nodeData = n.children.get(i).letter;
                 //child exists, traverse to the next letter
                 if (nodeData == wordData) {
-                    hasTraversed = true;
-                    TraverseTree(n.children.get(i), word, ++index);
+                    TraverseTree(n.children.get(i), word, index++);
                 }
             }
-            
-            //there haven't been any matches, therefore create a new child node 
-            if (hasTraversed == false) {
-                //child doesn't exist, add node to parent and traverse down it
-                n.children.add(new Node(wordData));
-                TraverseTree(n.children.get(n.children.size() - 1), word, ++index);
-            }
-            
+            //child doesn't exist, add node to parent and traverse down it
+            n.children.add(new Node(wordData));
+            TraverseTree(n.children.get(n.children.size() - 1), word, index++);
         }
     }
 
