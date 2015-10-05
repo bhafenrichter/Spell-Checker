@@ -82,11 +82,33 @@ public class SpellChecker {
 //***********************************************************************************************************
     private static void PopulateTree() {
         String[] text = GetTextFromFile();
+        
+        
+        if(text.length == 0){
+            System.out.println("Invalid Submission.  Please try again.");
+            getUserAction();
+        }
+        if(text[0] == null){
+            System.out.println("Invalid Submission.  Please try again.");
+            getUserAction();
+        }
+        
         String[] split = text[0].split(" ");
         for (int i = 0; i < split.length; i++) {
             String cur = split[i];
             TraverseTree(trie.root, cur, 0);
-            entries.add(cur);
+            
+            //add unique values to entry list
+            boolean isUnique = true;
+            for (int j = 0; j < entries.size(); j++) {
+                if(entries.get(j).equals(cur)){
+                    isUnique = false;
+                    break;
+                }
+            }
+            if(isUnique){
+                entries.add(cur);
+            }
         }
         getUserAction();
     }
@@ -232,7 +254,14 @@ public class SpellChecker {
         TextFileClass textFile = new TextFileClass();
         textFile.getFileName("Specify the text file to be read:");
         textFile.getFileContents();
-
+        
+        for (int i = 0; i < textFile.text.length; i++) {
+            if(textFile.text[i] == null) break;
+            
+            String cur = textFile.text[i];
+            textFile.text[0] += " " + cur;
+        }
+        
         return textFile.text;
     }
 }
