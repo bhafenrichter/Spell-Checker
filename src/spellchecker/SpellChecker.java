@@ -1,3 +1,17 @@
+//Program: Hafenrichter.java
+//Course: COSC 420
+//Description: An implementation of the Spell Checker assignment using the Trie data structure
+//Author: Brandon Hafenrichter
+//Revised: October 6, 2015
+//Language: Java
+//IDE: Netbeans 8.0.2
+//***********************************************************************************************************
+//***********************************************************************************************************
+//Class Main.java
+//Description: Contains the essential methods and calls required to construct, traverse, and read the Keyword Trie
+//***********************************************************************************************************
+//***********************************************************************************************************
+
 package spellchecker;
 
 import java.util.ArrayList;
@@ -6,15 +20,29 @@ import java.util.Collections;
 
 public class SpellChecker {
 
-    public static Trie trie;
-    public static ArrayList<String> entries;
+    public static Trie trie;    //The trie that will be populated with all of the words we will use in Spellchecker
+    public static ArrayList<String> entries;    //Keeps track of all of the words placed in the tree
+    
+//Method: Main
+//Description: Prompts the user for the information required to run the Spell Checker
+//Returns: None
     
     public static void main(String[] args) {
+        //Initializes core components of the spellchecker
         trie = new Trie();
         entries = new ArrayList<String>();
+        
+        //Get the users response
         getUserAction();
     }
-
+    
+//***********************************************************************************************************
+    //Method: getUserAction
+    //Description: The process of getting all of the user input required in order to run the Spell Checker's algorithms
+    //Parameters: None
+    //Calls: PopulateTree(), SpellCheckFile(), ShowEntries()
+    //Globals: None
+//***********************************************************************************************************
     public static void getUserAction() {
         System.out.println("Spell Checker: Brandon Hafenrichter");
         System.out.println("");
@@ -44,6 +72,14 @@ public class SpellChecker {
         }
     }
 
+//***********************************************************************************************************
+    //Method: PopulateTree
+    //Description: This method, combined with the TraverseTree() method populates the Tree based on the string
+    //collected by the TextFileClass supplied by the user 
+    //Parameters: None
+    //Returns: None
+    //Globals: Trie trie, ArrayList<String> entries
+//***********************************************************************************************************
     private static void PopulateTree() {
         String[] text = GetTextFromFile();
         String[] split = text[0].split(" ");
@@ -55,6 +91,16 @@ public class SpellChecker {
         getUserAction();
     }
 
+//***********************************************************************************************************
+    //Method: TraverseTree
+    //Description: This recursive method takes the word its currently reading and Traverses the tree based on the chars
+    //within it, adding nodes or going down other ones based on what is currently in the trie
+    //Parameters:   None n -> Current Node that the traversal is currently on
+    //              String word -> Current word the loop is working with
+    //              int index -> Helps us keep track of which character we currently are in the word
+    //Returns: None
+    //Globals: Trie trie, ArrayList<String> entries
+//***********************************************************************************************************
     public static void TraverseTree(Node n, String word, int index) {
 
         if (index == word.length() || n.children.size() == 0) {
@@ -91,7 +137,16 @@ public class SpellChecker {
             
         }
     }
-
+    
+//***********************************************************************************************************
+    //Method: SpellCheckFile
+    //Description: This method takes in text input from the user and traverses the already generated tree
+    //and checks which words are in the trie
+    //Parameters: None
+    //Returns: None
+    //Globals: Trie trie
+//***********************************************************************************************************
+    
     private static void SpellCheckFile() {
         String[] text = GetTextFromFile();
         String[] split = text[0].split(" ");
@@ -152,13 +207,27 @@ public class SpellChecker {
         
         getUserAction();
     }
-
+    
+//***********************************************************************************************************
+    //Method: ShowEntries
+    //Description: Prints out all of the words that are currently in the trie
+    //Parameters: None
+    //Returns: None
+    //Globals: ArrayList<String> entries
+//***********************************************************************************************************
     private static void ShowEntries() {
         Collections.sort(entries);
         System.out.println("Entries in Dictionary: " + entries.toString());
         getUserAction();
     }
 
+//***********************************************************************************************************
+    //Method: GetTextFromFile
+    //Description: This method gets the String[] text from the file supplied by the user
+    //Parameters: None
+    //Returns:      String[] text -> Array of text that is pulled from the text file specified by user
+    //Globals: None
+//***********************************************************************************************************
     public static String[] GetTextFromFile() {
         TextFileClass textFile = new TextFileClass();
         textFile.getFileName("Specify the text file to be read:");
